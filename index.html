@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="dark" data-lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>हनुमान चालीसा | Hanuman Chalisa</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A1006">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hanuman Chalisa">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Tiro+Bangla&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --radius:16px; --shadow:0 8px 24px rgba(0,0,0,.12);
+}
+[data-lang="hi"]{ --font-verse:'Tiro Devanagari Hindi', serif; }
+[data-lang="bn"]{ --font-verse:'Tiro Bangla', serif; }
+[data-theme="light"]{
+  --bg:#FDF8EE; --card:#FFFFFF; --text:#2B1810; --soft:#7A5A42;
+  --accent:#E8871E; --accent2:#8B1E3F; --border:#EEDFC2; --highlight:#FBEAD2;
+}
+[data-theme="dark"]{
+  --bg:#1A1006; --card:#241608; --text:#F3E3C8; --soft:#C9A97C;
+  --accent:#E3A94B; --accent2:#E8703F; --border:#3A2614; --highlight:#3A2C18;
+}
+[data-theme="oled"]{
+  --bg:#000000; --card:#0A0A0A; --text:#E8D5B0; --soft:#8F7A5C;
+  --accent:#D0A23A; --accent2:#E0532F; --border:#1C1C1C; --highlight:#241C0A;
+}
+[data-theme="hc"]{
+  --bg:#000000; --card:#000000; --text:#FFFFFF; --soft:#FFFFFF;
+  --accent:#FFD700; --accent2:#00E5FF; --border:#FFFFFF; --highlight:#332B00;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{background:var(--bg); min-height:100%;}
+body{
+  font-family:'Poppins',sans-serif; color:var(--text);
+  display:flex; flex-direction:column; min-height:100vh;
+  transition:background .3s ease,color .3s ease;
+}
+header{
+  padding:1.1rem 1rem .8rem; text-align:center; position:sticky; top:0; z-index:5;
+  background:var(--bg); border-bottom:1px solid var(--border);
+}
+.brand{display:flex; align-items:center; justify-content:center; gap:.6rem;}
+h1{font-family:var(--font-verse); font-size:1.6rem; color:var(--accent2);}
+.topbar{display:flex; justify-content:center; gap:.5rem; margin-top:.7rem; flex-wrap:wrap;}
+button{
+  font-family:'Poppins',sans-serif; border:1px solid var(--border); background:var(--card);
+  color:var(--text); border-radius:999px; padding:.45rem .9rem; font-size:.78rem;
+  cursor:pointer; display:flex; align-items:center; gap:.35rem; transition:.2s;
+}
+button:hover{border-color:var(--accent);}
+button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+button.active{background:var(--accent); color:#1a1006; border-color:var(--accent); font-weight:600;}
+.vlabel{font-family:var(--font-verse);}
+main{flex:1; max-width:640px; margin:0 auto; width:100%; padding:1rem 1rem 2rem;}
+.doha{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1rem 1.1rem; margin-bottom:1rem; box-shadow:var(--shadow);
+  border-left:4px solid var(--accent2);
+}
+.chaupai{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:.85rem 1rem; margin-bottom:.65rem; box-shadow:var(--shadow);
+  display:flex; gap:.7rem; align-items:flex-start; transition:background .25s;
+}
+.doha.playing, .chaupai.playing, .jai.playing{border-color:var(--accent); background:var(--highlight); background:color-mix(in srgb, var(--accent) 12%, var(--card));}
+.num{
+  font-family:var(--font-verse); color:var(--accent); font-weight:700;
+  min-width:2rem; text-align:center; font-size:1rem; padding-top:.1rem;
+}
+.lines{font-family:var(--font-verse); line-height:1.85; font-size:calc(1.08rem * var(--font-scale, 1));}
+.lines span{display:block;}
+.jai{
+  text-align:center; font-family:var(--font-verse); font-size:1.1rem;
+  color:var(--accent2); margin:1.2rem 0 .3rem; line-height:1.9;
+}
+footer{
+  border-top:1px solid var(--border); padding:.9rem 1rem 1.1rem;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; gap:.2rem; background:var(--bg);
+}
+footer p{font-size:.75rem; color:var(--soft); line-height:1.5;}
+footer strong{color:var(--accent2);}
+@media(min-width:640px){
+  h1{font-size:2rem;} .lines{font-size:calc(1.18rem * var(--font-scale, 1));}
+}
+.tele-overlay{
+  position:fixed; inset:0; background:var(--bg); z-index:50;
+  display:none; flex-direction:column;
+}
+.tele-overlay.active{display:flex;}
+.tele-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+  padding:.7rem .9rem; border-bottom:1px solid var(--border); flex-shrink:0;
+}
+.tele-speed{display:flex; align-items:center; gap:.6rem; font-size:.85rem; color:var(--soft); min-width:64px; justify-content:center;}
+.tele-bar button{padding:.5rem .85rem; font-size:.95rem;}
+.tele-body{flex:1; overflow-y:auto; padding:3rem 1.2rem 75vh; -webkit-overflow-scrolling:touch;}
+.tele-body p{
+  font-family:var(--font-verse); font-size:calc(1.5rem * var(--font-scale, 1)); line-height:2.15;
+  text-align:center; color:var(--text); margin-bottom:1.5rem;
+}
+.tele-num{display:block; color:var(--accent); font-size:.95rem; margin-bottom:.3rem;}
+@media(min-width:640px){.tele-body p{font-size:calc(2rem * var(--font-scale, 1));}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><h1 id="pageTitle">श्री हनुमान चालीसा</h1></div>
+  <div class="topbar">
+    <button id="playBtn" class="vlabel" aria-label="Play recitation">▶ पाठ सुनें</button>
+    <button id="fontMinus" aria-label="Decrease text size">A−</button>
+    <button id="fontPlus" aria-label="Increase text size">A+</button>
+    <button id="themeBtn" class="vlabel" aria-label="Change theme">🎨 थीम</button>
+    <button id="langBtn" aria-label="Change language">🌐 भाषा</button>
+    <button id="teleBtn" class="vlabel" aria-label="Open teleprompter">📜 प्रॉम्प्टर</button>
+  </div>
+</header>
+
+<main id="content"></main>
+
+<div id="teleOverlay" class="tele-overlay">
+  <div class="tele-bar">
+    <button id="teleClose" aria-label="Close teleprompter">✕</button>
+    <div class="tele-speed">
+      <button id="teleSlower" aria-label="Slower">−</button>
+      <span id="teleSpeedLabel">1×</span>
+      <button id="teleFaster" aria-label="Faster">+</button>
+    </div>
+    <button id="telePlay" aria-label="Start auto-scroll">▶</button>
+  </div>
+  <div id="teleBody" class="tele-body"></div>
+</div>
+
+<footer>
+  <p><strong>© Manik Roy <span id="year"></span>. All Rights Reserved.</strong></p>
+</footer>
+
+<script>
+const HI_DOHA_OPEN = [
+"श्रीगुरु चरन सरोज रज, निज मनु मुकुरु सुधारि।\nबरनउं रघुबर बिमल जसु, जो दायकु फल चारि॥",
+"बुद्धिहीन तनु जानिके, सुमिरौं पवन-कुमार।\nबल बुद्धि विद्या देहु मोहिं, हरहु कलेश विकार॥"
+];
+const HI_CHAUPAI = [
+"जय हनुमान ज्ञान गुन सागर।\nजय कपीस तिहुं लोक उजागर॥",
+"रामदूत अतुलित बल धामा।\nअंजनि-पुत्र पवनसुत नामा॥",
+"महाबीर बिक्रम बजरंगी।\nकुमति निवार सुमति के संगी॥",
+"कंचन बरन बिराज सुबेसा।\nकानन कुंडल कुंचित केसा॥",
+"हाथ बज्र और ध्वजा बिराजै।\nकांधे मूंज जनेऊ साजै॥",
+"संकर सुवन केसरीनंदन।\nतेज प्रताप महा जग बंदन॥",
+"विद्यावान गुनी अति चातुर।\nराम काज करिबे को आतुर॥",
+"प्रभु चरित्र सुनिबे को रसिया।\nराम लखन सीता मन बसिया॥",
+"सूक्ष्म रूप धरि सियहिं दिखावा।\nबिकट रूप धरि लंक जरावा॥",
+"भीम रूप धरि असुर संहारे।\nरामचंद्र के काज संवारे॥",
+"लाय सजीवन लखन जियाये।\nश्रीरघुबीर हरषि उर लाये॥",
+"रघुपति कीन्ही बहुत बड़ाई।\nतुम मम प्रिय भरतहि सम भाई॥",
+"सहस बदन तुम्हरो जस गावैं।\nअस कहि श्रीपति कंठ लगावैं॥",
+"सनकादिक ब्रह्मादि मुनीसा।\nनारद सारद सहित अहीसा॥",
+"जम कुबेर दिगपाल जहां ते।\nकबि कोबिद कहि सके कहां ते॥",
+"तुम उपकार सुग्रीवहिं कीन्हा।\nराम मिलाय राज पद दीन्हा॥",
+"तुम्हरो मंत्र बिभीषन माना।\nलंकेस्वर भए सब जग जाना॥",
+"जुग सहस्र जोजन पर भानू।\nलील्यो ताहि मधुर फल जानू॥",
+"प्रभु मुद्रिका मेलि मुख माहीं।\nजलधि लांघि गये अचरज नाहीं॥",
+"दुर्गम काज जगत के जेते।\nसुगम अनुग्रह तुम्हरे तेते॥",
+"राम दुआरे तुम रखवारे।\nहोत न आज्ञा बिनु पैसारे॥",
+"सब सुख लहै तुम्हारी सरना।\nतुम रच्छक काहू को डर ना॥",
+"आपन तेज सम्हारो आपै।\nतीनों लोक हांक तें कांपै॥",
+"भूत पिसाच निकट नहिं आवै।\nमहाबीर जब नाम सुनावै॥",
+"नासै रोग हरै सब पीरा।\nजपत निरंतर हनुमत बीरा॥",
+"संकट तें हनुमान छुड़ावै।\nमन क्रम बचन ध्यान जो लावै॥",
+"सब पर राम तपस्वी राजा।\nतिन के काज सकल तुम साजा॥",
+"और मनोरथ जो कोई लावै।\nसोइ अमित जीवन फल पावै॥",
+"चारों जुग परताप तुम्हारा।\nहै परसिद्ध जगत उजियारा॥",
+"साधु संत के तुम रखवारे।\nअसुर निकंदन राम दुलारे॥",
+"अष्ट सिद्धि नौ निधि के दाता।\nअस बर दीन जानकी माता॥",
+"राम रसायन तुम्हरे पासा।\nसदा रहो रघुपति के दासा॥",
+"तुम्हरे भजन राम को पावै।\nजनम जनम के दुख बिसरावै॥",
+"अंतकाल रघुबर पुर जाई।\nजहां जन्म हरि-भक्त कहाई॥",
+"और देवता चित्त न धरई।\nहनुमत सेइ सर्ब सुख करई॥",
+"संकट कटै मिटै सब पीरा।\nजो सुमिरै हनुमत बलबीरा॥",
+"जय जय जय हनुमान गोसाईं।\nकृपा करहु गुरुदेव की नाईं॥",
+"जो सत बार पाठ कर कोई।\nछूटहि बंदि महा सुख होई॥",
+"जो यह पढ़ै हनुमान चालीसा।\nहोय सिद्धि साखी गौरीसा॥",
+"तुलसीदास सदा हरि चेरा।\nकीजै नाथ हृदय महं डेरा॥"
+];
+const HI_DOHA_CLOSE = "पवनतनय संकट हरन, मंगल मूरति रूप।\nराम लखन सीता सहित, हृदय बसहु सुर भूप॥";
+const HI_JAI = "सियावर रामचंद्र की जय। पवनसुत हनुमान की जय।\nबोलो भाई सब संतन की जय॥";
+const HI_NUM = ["१","२","३","४","५","६","७","८","९","१०","११","१२","१३","१४","१५","१६","१७","१८","१९","२०",
+"२१","२२","२३","२४","२५","२६","२७","२८","२९","३०","३१","३२","३३","३४","३५","३६","३७","३८","३९","४०"];
+
+const BN_DOHA_OPEN = [
+"শ্রীগুরু চরন সরোজ রজ, নিজ মন মুকুর সুধারি।\nবরনউঁ রঘুবর বিমল জসু, জো দায়কু ফল চারি॥",
+"বুদ্ধিহীন তনু জানিকে সুমিরৌঁ পবন-কুমার।\nবল বুদ্ধি বিদ্যা দেহু মোহিঁ, হরহু কলেস বিকার॥"
+];
+const BN_CHAUPAI = [
+"জয় হনুমান জ্ঞান গুন সাগর।\nজয় কপীস তিহুঁ লোক উজাগর॥",
+"রাম দূত অতুলিত বল ধামা।\nঅঞ্জনি পুত্র পবনসুত নামা॥",
+"মহাবীর বিক্রম বজরঙ্গী।\nকুমতি নিবার সুমতি কে সঙ্গী॥",
+"কঞ্চন বরন বিরাজ সুবেসা।\nকানন কুণ্ডল কুঞ্চিত কেসা॥",
+"হাত বজ্র ঔ ধ্বজা বিরাজৈ।\nকাঁধে মূঁজ জনেউ সাজৈ॥",
+"সংকর সুবন কেসরীনন্দন।\nতেজ প্রতাপ মহা জগ বন্দন॥",
+"বিদ্যাবান গুণী অতি চাতুর।\nরাম কাজ করিবে কো আতুর॥",
+"প্রভু চরিত্র সুনিবে কো রসিয়া।\nরাম লখন সীতা মন বসিয়া॥",
+"সূক্ষ্ম রূপ ধরি সিয়হিঁ দিখাওয়া।\nবিকট রূপ ধরি লঙ্ক জরাওয়া॥",
+"ভীম রূপ ধরি অসুর সংহারে।\nরামচন্দ্র কে কাজ সওয়ারে॥",
+"লায় সঞ্জীবন লখন জিয়ায়ে।\nশ্রীরঘুবীর হরষি উর লায়ে॥",
+"রঘুপতি কীন্হি বহুত বড়াই।\nতুম মম প্রিয় ভরতহি সম ভাই॥",
+"সহস বদন তুমহারো জস গাবৈ।\nঅস কহি শ্রীপতি কণ্ঠ লগাবৈ॥",
+"সনকাদিক ব্রহ্মাদি মুনীসা।\nনারদ সারদ সহিত অহীসা॥",
+"জম কুবের দিগপাল জহাঁ তে।\nকবি কোবিদ কহি সকে কহাঁ তে॥",
+"তুম উপকার সুগ্রীবহিঁ কীন্হা।\nরাম মিলায় রাজপদ দীন্হা॥",
+"তুমহরো মন্ত্র বিভীষণ মানা।\nলঙ্কেস্বর ভএ সব জগ জানা॥",
+"যুগ সহস্র যোজন পর ভানু।\nলীল্যো তাহি মধুর ফল জানু॥",
+"প্রভু মুদ্রিকা মেলি মুখ মাহিঁ।\nজলধি লাঙ্ঘি গয়ে অচরজ নাহীঁ॥",
+"দুর্গম কাজ জগত কে জেতে।\nসুগম অনুগ্রহ তুমহারে তেতে॥",
+"রাম দুয়ারে তুম রখওয়ারে।\nহোত ন আজ্ঞা বিনু পৈসারে॥",
+"সব সুখ লহে তুমহারী সরনা।\nতুম রচ্ছক কাহু কো ডর না॥",
+"আপন তেজ সম্হারো আপে।\nতিনোঁ লোক হাঁকতে কাঁপে॥",
+"ভূত পিশাচ নিকট নহীঁ আওয়ে।\nমহাবীর জব নাম সুনাওয়ে॥",
+"নাসে রোগ হরে সব পীরা।\nজপত নিরন্তর হনুমত বীরা॥",
+"সংকট তে হনুমান ছুড়াওয়ে।\nমন ক্রম বচন ধ্যান জো লাওয়ে॥",
+"সব পর রাম তপস্বী রাজা।\nতিন কে কাজ সকল তুম সাজা॥",
+"ঔর মনোরথ জো কোই লাওয়ে।\nসোই অমিত জীবন ফল পাৱৈ॥",
+"চারো যুগ পরতাপ তুমহারা।\nহৈ পরসিদ্ধ জগত উজিয়ারা॥",
+"সাধু সন্ত কে তুম রখওয়ারে।\nঅসুর নিকন্দন রাম দুলারে॥",
+"অষ্ট সিদ্ধি নব নিধি কে দাতা।\nঅস বর দীন জানকী মাতা॥",
+"রাম রসায়ন তুমহারে পাসা।\nসদা রহো রঘুপতি কে দাসা॥",
+"তুমহরে ভজন রাম কো পাৱৈ।\nজনম জনম কে দুখ বিসরাৱৈ॥",
+"অন্তকাল রঘুবর পুর জাই।\nজহাঁ জন্ম হরি ভক্ত কহাই॥",
+"ঔর দেবতা চিত্ত ন ধরই।\nহনুমত সেই সর্বসুখ করই॥",
+"সংকট কটে মিটে সব পীড়া।\nজো সুমিরে হনুমত বলবীরা॥",
+"জয় জয় জয় হনুমান গোঁসাই।\nকৃপা করহু গুরুদেব কী নাই॥",
+"জো সত বার পাঠ করে কোই।\nছুটহি বন্দি মহা সুখ হোই॥",
+"জো য়হ পড়ে হনুমান চালিসা।\nহোয় সিদ্ধি সাখী গৌরীসা॥",
+"তুলসীদাস সদা হরি চেরা।\nকীজৈ নাথ হৃদয় মহ ডেরা॥"
+];
+const BN_DOHA_CLOSE = "পবন তনয় সংকট হরন, মঙ্গল মূরতি রূপ।\nরাম লখন সীতা সহিত, হৃদয় বসহু সুর ভূপ॥";
+const BN_JAI = "সিয়াবর রামচন্দ্র কী জয়। পবনসুত হনুমান কী জয়।\nবোলো ভাই সব সন্তন কী জয়॥";
+const BN_NUM = ["১","২","৩","৪","৫","৬","৭","৮","৯","১০","১১","১২","১৩","১৪","১৫","১৬","১৭","১৮","১৯","২০",
+"২১","২২","২৩","২৪","২৫","২৬","২৭","২৮","২৯","৩০","৩১","৩২","৩৩","৩৪","৩৫","৩৬","৩৭","৩৮","৩৯","৪০"];
+
+const DATA = {
+  hi:{open:HI_DOHA_OPEN, chaupai:HI_CHAUPAI, close:HI_DOHA_CLOSE, jai:HI_JAI, num:HI_NUM, speechLang:"hi", label:"अ हिन्दी", title:"श्री हनुमान चालीसा", subtitle:"Shri Hanuman Chalisa", htmlLang:"hi", playIdle:"▶ पाठ सुनें", playBusy:"⏸ रोकें", noVoice:"इस ब्राउज़र में आवाज़ सुविधा उपलब्ध नहीं है।", teleLabel:"📜 प्रॉम्प्टर"},
+  bn:{open:BN_DOHA_OPEN, chaupai:BN_CHAUPAI, close:BN_DOHA_CLOSE, jai:BN_JAI, num:BN_NUM, speechLang:"bn", label:"অ বাংলা", title:"হনুমান চল্লিশা", subtitle:"Hanuman Challisha", htmlLang:"bn", playIdle:"▶ পাঠ শুনুন", playBusy:"⏸ থামুন", noVoice:"এই ব্রাউজারে ভয়েস সুবিধা নেই।", teleLabel:"📜 প্রম্পটার"}
+};
+let curLang = localStorage.getItem("hc-lang") || "hi";
+
+function block(text, num){
+  const lines = text.split("\n").map(l=>`<span>${l}</span>`).join("");
+  return `<div class="chaupai"><div class="num">${num||""}</div><div class="lines">${lines}</div></div>`;
+}
+function renderContent(){
+  const d = DATA[curLang];
+  let html = `<div class="doha">${d.open.map(x=>`<div class="lines">${x.split("\n").map(l=>`<span>${l}</span>`).join("")}</div>`).join("<br>")}</div>`;
+  d.chaupai.forEach((c,i)=>{ html += block(c, `॥${d.num[i]}॥`); });
+  html += `<div class="doha"><div class="lines">${d.close.split("\n").map(l=>`<span>${l}</span>`).join("")}</div></div>`;
+  html += `<div class="jai">${d.jai.split("\n").map(l=>`<span>${l}</span>`).join("<br>")}</div>`;
+  document.getElementById("content").innerHTML = html;
+  applyFont();
+}
+const langBtn = document.getElementById("langBtn");
+const pageTitle = document.getElementById("pageTitle");
+function applyLang(){
+  const d = DATA[curLang];
+  langBtn.textContent = curLang === "hi" ? "🌐 বাংলা" : "🌐 हिन्दी";
+  pageTitle.textContent = d.title;
+  document.title = d.title + " | Hanuman Chalisa";
+  document.documentElement.lang = d.htmlLang;
+  document.documentElement.setAttribute("data-lang", curLang);
+  playBtnUpdateIdle();
+  renderContent();
+  if(typeof teleOverlay !== "undefined" && teleOverlay.classList.contains("active")){ renderTelePrompter(); }
+  if(typeof teleBtn !== "undefined"){ teleBtn.textContent = d.teleLabel; }
+  if(typeof applyTheme === "function"){ applyTheme(); }
+  localStorage.setItem("hc-lang", curLang);
+}
+langBtn.addEventListener("click", ()=>{
+  if(speaking){ stopSpeaking(); }
+  curLang = curLang === "hi" ? "bn" : "hi";
+  applyLang();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const THEMES = ["light","dark","oled","hc"];
+const LABELS = {
+  hi:{light:"☀ लाइट",dark:"🌙 डार्क",oled:"⬛ OLED",hc:"◐ HC"},
+  bn:{light:"☀ লাইট",dark:"🌙 ডার্ক",oled:"⬛ OLED",hc:"◐ HC"}
+};
+const THEME_COLORS = { light:"#FDF8EE", dark:"#1A1006", oled:"#000000", hc:"#000000" };
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+const themeBtn = document.getElementById("themeBtn");
+let themeIdx = THEMES.indexOf("dark");
+const saved = localStorage.getItem("hc-theme");
+if(saved && THEMES.includes(saved)){ themeIdx = THEMES.indexOf(saved); }
+function applyTheme(){
+  const t = THEMES[themeIdx];
+  document.documentElement.setAttribute("data-theme", t);
+  themeBtn.textContent = LABELS[curLang][t];
+  localStorage.setItem("hc-theme", t);
+  if(themeColorMeta) themeColorMeta.setAttribute("content", THEME_COLORS[t]);
+}
+themeBtn.addEventListener("click", ()=>{ themeIdx = (themeIdx+1) % THEMES.length; applyTheme(); });
+applyTheme();
+
+let fontScale = parseFloat(localStorage.getItem("hc-font")) || 1;
+function applyFont(){
+  document.documentElement.style.setProperty("--font-scale", fontScale);
+  localStorage.setItem("hc-font", fontScale);
+}
+document.getElementById("fontPlus").addEventListener("click", ()=>{ fontScale=Math.min(1.5, Math.round((fontScale+0.1)*10)/10); applyFont(); });
+document.getElementById("fontMinus").addEventListener("click", ()=>{ fontScale=Math.max(0.8, Math.round((fontScale-0.1)*10)/10); applyFont(); });
+applyFont();
+
+const synth = window.speechSynthesis;
+const playBtn = document.getElementById("playBtn");
+let speaking = false;
+let speakQueue = [];
+let speakIndex = 0;
+let chosenVoice = null;
+let keepAliveTimer = null;
+
+function getVoicesReady(){
+  return new Promise(resolve=>{
+    let v = synth.getVoices();
+    if(v.length){ resolve(v); return; }
+    const onReady = ()=>{ synth.removeEventListener("voiceschanged", onReady); resolve(synth.getVoices()); };
+    synth.addEventListener("voiceschanged", onReady);
+    setTimeout(()=>{ synth.removeEventListener("voiceschanged", onReady); resolve(synth.getVoices()); }, 1200);
+  });
+}
+function pickVoice(voices, langPrefix){
+  return voices.find(v=>v.lang && v.lang.toLowerCase().startsWith(langPrefix))
+    || voices.find(v=>v.lang && v.lang.toLowerCase().startsWith("hi"))
+    || voices[0] || null;
+}
+function playBtnUpdateIdle(){
+  playBtn.textContent = DATA[curLang].playIdle;
+  playBtn.classList.remove("active");
+  playBtn.setAttribute("aria-label", "Play recitation");
+}
+function highlightVerse(idx){
+  const kids = document.getElementById("content").children;
+  Array.from(kids).forEach(k=>k.classList.remove("playing"));
+  let childIdx;
+  if(idx <= 1) childIdx = 0;
+  else if(idx <= 41) childIdx = idx - 1;
+  else if(idx === 42) childIdx = 41;
+  else childIdx = 42;
+  const el = kids[childIdx];
+  if(el){ el.classList.add("playing"); el.scrollIntoView({behavior:"smooth", block:"center"}); }
+}
+function clearHighlight(){
+  Array.from(document.getElementById("content").children).forEach(k=>k.classList.remove("playing"));
+}
+function stopSpeaking(){
+  speaking = false;
+  if(keepAliveTimer){ clearInterval(keepAliveTimer); keepAliveTimer = null; }
+  synth.cancel();
+  playBtnUpdateIdle();
+  clearHighlight();
+}
+function speakNext(){
+  if(!speaking) return;
+  if(speakIndex >= speakQueue.length){ stopSpeaking(); return; }
+  highlightVerse(speakIndex);
+  const utter = new SpeechSynthesisUtterance(speakQueue[speakIndex]);
+  if(chosenVoice) utter.voice = chosenVoice;
+  utter.lang = chosenVoice ? chosenVoice.lang : (DATA[curLang].speechLang + "-IN");
+  utter.rate = 0.92;
+  utter.onend = ()=>{ speakIndex++; speakNext(); };
+  utter.onerror = ()=>{ speakIndex++; speakNext(); };
+  synth.speak(utter);
+}
+function refreshVoiceLater(langPrefix){
+  getVoicesReady().then(voices=>{
+    const v = pickVoice(voices, langPrefix);
+    if(v) chosenVoice = v;
+  });
+}
+playBtn.addEventListener("click", ()=>{
+  const d = DATA[curLang];
+  if(!("speechSynthesis" in window)){ alert(d.noVoice); return; }
+  if(speaking){ stopSpeaking(); return; }
+  speaking = true;
+  playBtn.textContent = d.playBusy;
+  playBtn.classList.add("active");
+  playBtn.setAttribute("aria-label", "Pause recitation");
+  synth.cancel();
+  const lines = [...d.open, ...d.chaupai, d.close, d.jai].map(t=>t.replace(/॥/g,".").replace(/।/g,",").replace(/\n/g," "));
+  speakQueue = lines;
+  speakIndex = 0;
+  const voicesNow = synth.getVoices();
+  chosenVoice = voicesNow.length ? pickVoice(voicesNow, d.speechLang) : null;
+  speakNext();
+  if(!voicesNow.length){ refreshVoiceLater(d.speechLang); }
+  keepAliveTimer = setInterval(()=>{ if(synth.speaking){ synth.pause(); synth.resume(); } }, 9000);
+});
+if("speechSynthesis" in window){ speechSynthesis.onvoiceschanged = ()=>{}; }
+
+const teleBtn = document.getElementById("teleBtn");
+const teleOverlay = document.getElementById("teleOverlay");
+const teleBody = document.getElementById("teleBody");
+const teleClose = document.getElementById("teleClose");
+const telePlay = document.getElementById("telePlay");
+const teleSlower = document.getElementById("teleSlower");
+const teleFaster = document.getElementById("teleFaster");
+const teleSpeedLabel = document.getElementById("teleSpeedLabel");
+const TELE_LEVELS = [
+  0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,
+  0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00,
+  1.10,1.20,1.30,1.40,1.50,
+  2,3,4,5,6,7,8,9,10
+];
+let teleLevelIdx = TELE_LEVELS.findIndex(v=>Math.abs(v-parseFloat(localStorage.getItem("hc-tele-speed")))<0.001);
+if(teleLevelIdx === -1) teleLevelIdx = TELE_LEVELS.indexOf(1);
+function teleSpeedLabelText(){
+  const v = TELE_LEVELS[teleLevelIdx];
+  let s = v.toFixed(2).replace(/0+$/,"").replace(/\.$/,"");
+  return s + "×";
+}
+teleSpeedLabel.textContent = teleSpeedLabelText();
+let teleScrolling = false, teleRAF = null, teleLastTs = null, teleScrollPos = 0;
+
+function renderTelePrompter(){
+  const d = DATA[curLang];
+  let html = d.open.map(x=>`<p>${x.split("\n").join("<br>")}</p>`).join("");
+  d.chaupai.forEach((c,i)=>{ html += `<p><span class="tele-num">॥${d.num[i]}॥</span>${c.split("\n").join("<br>")}</p>`; });
+  html += `<p>${d.close.split("\n").join("<br>")}</p>`;
+  html += `<p>${d.jai.split("\n").join("<br>")}</p>`;
+  teleBody.innerHTML = html;
+}
+function stopTeleScroll(){
+  teleScrolling = false; telePlay.textContent = "▶"; telePlay.setAttribute("aria-label", "Start auto-scroll");
+  if(teleRAF) cancelAnimationFrame(teleRAF);
+  releaseWakeLock();
+}
+function teleStep(ts){
+  if(teleLastTs === null) teleLastTs = ts;
+  const dt = (ts - teleLastTs) / 1000;
+  teleLastTs = ts;
+  teleScrollPos += TELE_LEVELS[teleLevelIdx] * 14 * dt;
+  teleBody.scrollTop = teleScrollPos;
+  if(teleScrollPos + teleBody.clientHeight >= teleBody.scrollHeight - 4){ stopTeleScroll(); return; }
+  teleRAF = requestAnimationFrame(teleStep);
+}
+let wakeLock = null;
+async function requestWakeLock(){
+  try{
+    if("wakeLock" in navigator){
+      const lock = await navigator.wakeLock.request("screen");
+      if(!teleScrolling){ lock.release().catch(()=>{}); return; }
+      wakeLock = lock;
+      wakeLock.addEventListener("release", ()=>{ wakeLock = null; });
+    }
+  }catch(e){ wakeLock = null; }
+}
+function releaseWakeLock(){
+  if(wakeLock){ wakeLock.release().catch(()=>{}); wakeLock = null; }
+}
+document.addEventListener("visibilitychange", ()=>{
+  if(document.visibilityState === "visible" && teleScrolling && !wakeLock){ requestWakeLock(); }
+});
+function startTeleScroll(){
+  teleScrolling = true; teleLastTs = null; teleScrollPos = teleBody.scrollTop;
+  telePlay.textContent = "⏸"; telePlay.setAttribute("aria-label", "Pause auto-scroll");
+  requestWakeLock();
+  teleRAF = requestAnimationFrame(teleStep);
+}
+teleBtn.addEventListener("click", ()=>{
+  renderTelePrompter();
+  teleOverlay.classList.add("active");
+  teleBody.scrollTop = 0;
+  teleScrollPos = 0;
+  document.body.style.overflow = "hidden";
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape" && teleOverlay.classList.contains("active")){
+    stopTeleScroll();
+    teleOverlay.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+});
+teleClose.addEventListener("click", ()=>{ stopTeleScroll(); teleOverlay.classList.remove("active"); document.body.style.overflow = ""; });
+telePlay.addEventListener("click", ()=>{ teleScrolling ? stopTeleScroll() : startTeleScroll(); });
+teleSlower.addEventListener("click", ()=>{
+  teleLevelIdx = Math.max(0, teleLevelIdx-1);
+  teleSpeedLabel.textContent = teleSpeedLabelText();
+  localStorage.setItem("hc-tele-speed", TELE_LEVELS[teleLevelIdx]);
+});
+teleFaster.addEventListener("click", ()=>{
+  teleLevelIdx = Math.min(TELE_LEVELS.length-1, teleLevelIdx+1);
+  teleSpeedLabel.textContent = teleSpeedLabelText();
+  localStorage.setItem("hc-tele-speed", TELE_LEVELS[teleLevelIdx]);
+});
+
+applyLang();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", ()=>{
+    navigator.serviceWorker.register("sw.js").catch((err)=>{ console.warn("SW registration failed:", err); });
+  });
+}
+</script>
+</body>
+</html>
